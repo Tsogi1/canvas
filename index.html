@@ -12,8 +12,8 @@
 <body>
     <div id="container">
         <canvas id="canvas" width="400" height="400"></canvas>
-        <p><button onclick="myCanvas()">Try it</button></p>
-        <img width="200" height="200" id="scream" src="Unbenannt.png">
+        <p><button onclick="init()">Edit</button></p>
+        <img width="img.width/2" height="img.height/2" id="scream" src="Unbenannt.jpg">
         <button id="default">line</button>
         <button id="arc">circle</button>
         <button id="erase">erase</button>
@@ -23,14 +23,6 @@
     </div>
 </body>
 
-<script>
-    function myCanvas() {
-        var c = document.getElementById("canvas");
-        var ctx = c.getContext("2d");
-        var img = document.getElementById("scream");
-        ctx.drawImage(img, 10, 10);
-    }
-</script>
 <script src="canvas.js"></script>
 
 </html>

@@ -1,8 +1,103 @@
+var canvas, ctx, flag = false,
+    prevX = 0,
+    currX = 0,
+    prevY = 0,
+    currY = 0,
+    dot_flag = false;
+
+var x = "black",
+    y = 5;
+
+function init() {
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext("2d");
+    var img = document.getElementById('scream');
+    w = canvas.width;
+    h = canvas.height;
+    canvas.height = img.height;
+    canvas.width = img.width;
+    canvas.addEventListener("mousemove", function (e) {
+        findxy('move', e)
+    }, false);
+    canvas.addEventListener("mousedown", function (e) {
+        findxy('down', e)
+    }, false);
+    canvas.addEventListener("mouseup", function (e) {
+        findxy('up', e)
+    }, false);
+    canvas.addEventListener("mouseout", function (e) {
+        findxy('out', e)
+    }, false);
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+}
+
+function draw() {
+    console.log("ich war hier");
+    ctx.beginPath();
+    ctx.moveTo(prevX, prevY);
+    ctx.lineTo(currX, currY);
+    ctx.strokeStyle = x;
+    ctx.lineWidth = y;
+    ctx.stroke();
+    ctx.closePath();
+   
+}
+
+function erase() {
+    var m = confirm("Want to clear");
+    if (m) {
+        ctx.clearRect(0, 0, w, h);
+        document.getElementById("canvasimg").style.display = "none";
+    }
+}
+
+function save() {
+    document.getElementById("canvasimg").style.border = "2px solid";
+    var dataURL = canvas.toDataURL();
+    document.getElementById("canvasimg").src = dataURL;
+    document.getElementById("canvasimg").style.display = "inline";
+}
+
+
+function findxy(res, e) {
+    if (res == 'down') {
+        prevX = currX;
+        prevY = currY;
+        currX = e.clientX - canvas.offsetLeft;
+        currY = e.clientY - canvas.offsetTop;
+
+        flag = true;
+        dot_flag = true;
+        if (dot_flag) {
+            ctx.beginPath();
+            ctx.fillStyle = x;
+            ctx.fillRect(currX, currY, 2, 2);
+            ctx.closePath();
+            dot_flag = false;
+        }
+    }
+    if (res == 'up' || res == "out") {
+        flag = false;
+    }
+    if (res == 'move') {
+        if (flag) {
+            
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft;
+            currY = e.clientY - canvas.offsetTop;
+            draw();
+        }
+    }
+}
+/*
 //CanvassKontext
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 var isDrawing;
 var rect;
+var k=1;
+
 
 //Buttons
 const lineB = document.querySelector('#default');
@@ -22,7 +117,7 @@ let eraseAll = "eraseAll"
 let save = "save"
 let trash = "trash"
 
-  
+
 
 var radgrad = context.createRadialGradient(0, 0, k, 0, 0, k * 2);
 radgrad.addColorStop(0, 'rgba(0,0,0,1)');
@@ -57,7 +152,7 @@ canvas.onmouseup = function() {
   isDrawing = false;
 };
 var debouncing = false;
-
+git
 function resizeHandler() {
   debouncing = false;
   getRect();
@@ -72,7 +167,7 @@ window.onscroll = window.onresize = function() {
 
 getRect();
 
-
+*/
 
 
 /* Ich bin ein längerer Kommentar
