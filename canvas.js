@@ -3,10 +3,11 @@ var canvas, ctx, flag = false,
     currX = 0,
     prevY = 0,
     currY = 0,
+    rect,
     dot_flag = false;
 
 var x = "black",
-    y = 5;
+    y = 2;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -16,6 +17,10 @@ function init() {
     h = canvas.height;
     canvas.height = img.height;
     canvas.width = img.width;
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+};
+//draw line
+function line(){
     canvas.addEventListener("mousemove", function (e) {
         findxy('move', e)
     }, false);
@@ -28,50 +33,39 @@ function init() {
     canvas.addEventListener("mouseout", function (e) {
         findxy('out', e)
     }, false);
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-}
+};
 
-function draw() {
-    console.log("ich war hier");
-    ctx.beginPath();
-    ctx.moveTo(prevX, prevY);
-    ctx.lineTo(currX, currY);
-    ctx.strokeStyle = x;
-    ctx.lineWidth = y;
-    ctx.stroke();
-    ctx.closePath();
-   
-}
-
-function erase() {
+// Undo last action
+function undo() {
     var m = confirm("Want to clear");
     if (m) {
         ctx.clearRect(0, 0, w, h);
         document.getElementById("canvasimg").style.display = "none";
     }
-}
+};
 
 function save() {
     document.getElementById("canvasimg").style.border = "2px solid";
     var dataURL = canvas.toDataURL();
     document.getElementById("canvasimg").src = dataURL;
     document.getElementById("canvasimg").style.display = "inline";
-}
+};
 
 
 function findxy(res, e) {
+    rect=canvas.getBoundingClientRect();
     if (res == 'down') {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
+        currX = e.clientX - rect.left;
+        currY = e.clientY - rect.top;
 
         flag = true;
         dot_flag = true;
         if (dot_flag) {
             ctx.beginPath();
             ctx.fillStyle = x;
-            ctx.fillRect(currX, currY, 2, 2);
+            ctx.fillRect(currX, currY, 1, 1);
             ctx.closePath();
             dot_flag = false;
         }
@@ -84,12 +78,21 @@ function findxy(res, e) {
             
             prevX = currX;
             prevY = currY;
-            currX = e.clientX - canvas.offsetLeft;
-            currY = e.clientY - canvas.offsetTop;
-            draw();
+            currX = e.clientX - rect.left;
+            currY = e.clientY - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(currX, currY);
+            ctx.strokeStyle = x;
+            ctx.lineWidth = y;
+            ctx.stroke();
+            ctx.closePath();
+            
         }
     }
-}
+};
+
+
 /*
 //CanvassKontext
 var canvas = document.getElementById('canvas');

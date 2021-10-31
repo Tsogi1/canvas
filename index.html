@@ -14,12 +14,11 @@
         <canvas id="canvas" width="400" height="400"></canvas>
         <p><button onclick="init()">Edit</button></p>
         <img width="img.width/2" height="img.height/2" id="scream" src="Unbenannt.jpg">
-        <button id="default">line</button>
-        <button id="arc">circle</button>
-        <button id="erase">erase</button>
-        <button id="eraseAll">eraseAll</button>
-        <button id="save">save</button>
-        <button id="trash">trash</button>
+        <button id="default" onclick="line()">line</button>
+        <button id="arc" onclick="circle()">circle</button>
+        <button id="erase" onclick="undo()">undo</button>
+        <button id="eraseAll" onlclick="undo()">erase all</button>
+        <button id="save" onclick="save()">save</button>
     </div>
 </body>
 
